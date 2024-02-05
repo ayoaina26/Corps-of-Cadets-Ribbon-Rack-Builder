@@ -1,20 +1,407 @@
 <!DOCTYPE html>
-<html lang="en">
+<html dir="ltr" lang="en-US">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-    <title>Military Ribbon Rack Creator</title>
+    <title>Texas A&M Corps of Cadets Ribbon Builder</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0"> 
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<meta name="description" content="JROTC ribbon organizer, select ribbons and number of awards.">
+
+	<link href='https://fonts.googleapis.com/css?family=Carrois+Gothic' rel='stylesheet' type='text/css'>
+	<link href="styles.css" rel="stylesheet">
+
+	<script>
+	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	  ga('create', 'UA-44459537-1', 'auto');
+	  ga('send', 'pageview');
+	</script>
 </head>
 <body>
-    <div id="ribbon-rack">
-        <!-- Ribbon rack display area -->
-    </div>
+	<h1>Texas A&M Corps of Cadets Ribbon Builder</h1>
 
-    <div id="ribbon-options">
-        <!-- Ribbon selection and customization options -->
-    </div>
+	<p class="instructions">Click any of the ribbons to add them.  Once added, hover on the ribbon to adjust the number of awards or remove it.</p>
 
-    <script src="script.js"></script>
+	<ul id="ribbon-preview"></ul>
+	<ul id="ribbon-select"></ul>
+
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+	<script>
+		'use strict';
+
+		/* DATA */
+		var lamps = {
+			2 : {
+				'height'		: 64,
+				'width'			: 95,
+				'left'			: 100,
+				'top'			: 20
+			},
+			3 : {
+				'height'		: 64,
+				'width'			: 95,
+				'left'			: 100,
+				'top'			: 20
+			}
+		};
+		
+		var ribbons = {
+			'n11' : {
+				'name'			: 'Distinguished Cadet Award for Scholastic Excellence',
+				'serial'		: 'N-1-1',
+				'className'		: 'ribbon-1-1',
+				'description'	: 'Awarded annually to one Cadet who exhibits the degree of excellence in scholastics'
+			},
+			'n12' : {
+				'name'			: 'Academic Excellence',
+				'serial'		: 'N-1-2',
+				'className'		: 'ribbon-1-2',
+				'description'	: 'Awarded annually to one Cadet in each LET level for achieving the highest academic grades.'
+			},
+			'n13' : {
+				'name'			: 'Academic Achievement',
+				'serial'		: 'N-1-3',
+				'className'		: 'ribbon-1-3',
+				'description'	: 'Awarded annually to those Cadets who maintain a grade of "A" in JROTC and a "B" in the remaining academic subjects'
+			},
+			'n14' : {
+				'name'			: 'Perfect Attendance',
+				'serial'		: 'N-1-4',
+				'className'		: 'ribbon-1-4',
+				'description'	: 'Awarded to Cadets with no unexcused absences during each quarter/semester'
+			},
+			'n15' : {
+				'name'			: 'Student Government',
+				'serial'		: 'N-1-5',
+				'className'		: 'ribbon-1-5',
+				'description'	: 'Elected to a student government office'
+			},
+			'n16' : {
+				'name'			: 'Leadership Development Service',
+				'serial'		: 'N-1-6',
+				'className'		: 'ribbon-1-6',
+				'description'	: 'Awarded to Cadets successfully completing first quarter/semester of training of each LET year'
+			},
+			'n17' : {
+				'name'			: 'Optional by SAI',
+				'serial'		: 'N-1-7',
+				'className'		: 'ribbon-1-7',
+				'description'	: ''
+			},
+			'n18' : {
+				'name'			: 'Optional by SAI',
+				'serial'		: 'N-1-8',
+				'className'		: 'ribbon-1-8',
+				'description'	: ''
+			},
+			'n19' : {
+				'name'			: 'Optional by SAI',
+				'serial'		: 'N-1-9',
+				'className'		: 'ribbon-1-9',
+				'description'	: ''
+			},
+			'n110' : {
+				'name'			: 'Optional by SAI',
+				'serial'		: 'N-1-10',
+				'className'		: 'ribbon-1-10',
+				'description'	: ''
+			},
+			'n31' : {
+				'name'			: 'Directors of Army Instruction/Senior Army Instructor Leadership',
+				'serial'		: 'N-3-1',
+				'className'		: 'ribbon-3-1',
+				'description'	: 'Awarded annually to the one Cadet in each LET level who displays the highest degree of leadership'
+			},
+			'n32' : {
+				'name'			: 'Personal Appearance',
+				'serial'		: 'N-3-2',
+				'className'		: 'ribbon-3-2',
+				'description'	: 'Awarded annually to Cadets who consistently present an outstanding appearance'
+			},
+			'n33' : {
+				'name'			: 'Proficiency',
+				'serial'		: 'N-3-3',
+				'className'		: 'ribbon-3-3',
+				'description'	: 'Awarded annually to those Cadets who have demonstrated an exceptionally high degree of leadership, academic achievement, and performance of duty'
+			},
+			'n34' : {
+				'name'			: 'Drill Team',
+				'serial'		: 'N-3-4',
+				'className'		: 'ribbon-3-4',
+				'description'	: 'Awarded annually to drill team members'
+			},
+			'n35' : {
+				'name'			: 'Orienteering',
+				'serial'		: 'N-3-5',
+				'className'		: 'ribbon-3-5',
+				'description'	: 'Awarded annually to cadets who are members of orienteering teams'
+			},
+			'n36' : {
+				'name'			: 'Color/Honor Guard',
+				'serial'		: 'N-3-6',
+				'className'		: 'ribbon-3-6',
+				'description'	: 'Awarded annually to members of color/honor guard'
+			},
+			'n37' : {
+				'name'			: 'Rifle Team',
+				'serial'		: 'N-3-7',
+				'className'		: 'ribbon-3-7',
+				'description'	: 'Awarded annually to rifle team members'
+			},
+			'n38' : {
+				'name'			: 'Adventure Training',
+				'serial'		: 'N-3-8',
+				'className'		: 'ribbon-3-8',
+				'description'	: 'Awarded annually to cadets who are members of adventure training type units'
+			},
+			'n39' : {
+				'name'			: 'Commendation',
+				'serial'		: 'N-3-9',
+				'className'		: 'ribbon-3-9',
+				'description'	: 'Awarded to Cadets whose performance of duty exceptionally exceeds that expected of Cadets of their grade and experience'
+			},
+			'n310' : {
+				'name'			: 'Good Conduct',
+				'serial'		: 'N-3-10',
+				'className'		: 'ribbon-3-10',
+				'description'	: 'Awarded annually to cadets who have demonstrated outstanding conduct throughout the school year'
+			},
+			'n311' : {
+				'name'			: 'JCLC Participation',
+				'serial'		: 'N-3-11',
+				'className'		: 'ribbon-3-11',
+				'description'	: 'Awarded to cadets for JCLC participation'
+			},
+			'n312' : {
+				'name'			: 'Optional by SAI',
+				'serial'		: 'N-3-12',
+				'className'		: 'ribbon-3-12',
+				'description'	: ''
+			},
+			'n313' : {
+				'name'			: 'Optional by SAI',
+				'serial'		: 'N-3-13',
+				'className'		: 'ribbon-3-13',
+				'description'	: ''
+			},
+			'n314' : {
+				'name'			: 'Optional by SAI',
+				'serial'		: 'N-3-14',
+				'className'		: 'ribbon-3-14',
+				'description'	: ''
+			},
+			'n315' : {
+				'name'			: 'Optional by SAI',
+				'serial'		: 'N-3-15',
+				'className'		: 'ribbon-3-15',
+				'description'	: ''
+			},
+			'n21' : {
+				'name'			: 'Varsity Athletics',
+				'serial'		: 'N-2-1',
+				'className'		: 'ribbon-2-1',
+				'description'	: 'Awarded annually to Cadets in varsity sports'
+			},
+			'n22' : {
+				'name'			: 'Physical Fitness',
+				'serial'		: 'N-2-2',
+				'className'		: 'ribbon-2-2',
+				'description'	: 'Awarded annually to Cadets who maintain excellent physical fitness. The ribbon will be presented to Cadets receiving an 85-percentile rating or better in all 5 Cadet Challenge events.'
+			},
+			'n23' : {
+				'name'			: 'ROTC Athletics',
+				'serial'		: 'N-2-3',
+				'className'		: 'ribbon-2-3',
+				'description'	: 'Awarded annually to Cadets who maintain a basic, yet challenging level of physical fitness. The ribbon will be presented to Cadets receiving a 50-percentile rating or better in all 5 Cadet Challenge events.'
+			},
+			'n24' : {
+				'name'			: 'Optional by SAI',
+				'serial'		: 'N-2-4',
+				'className'		: 'ribbon-2-4',
+				'description'	: ''
+			},
+			'n25' : {
+				'name'			: 'Optional by SAI',
+				'serial'		: 'N-2-5',
+				'className'		: 'ribbon-2-5',
+				'description'	: ''
+			},
+			'n41' : {
+				'name'			: 'Parade',
+				'serial'		: 'N-4-1',
+				'className'		: 'ribbon-4-1',
+				'description'	: 'Awarded to Cadets who have participated in local community parades; for example, Veterans\' Day, Memorial Day, etc.'
+			},
+			'n42' : {
+				'name'			: 'Recruiting',
+				'serial'		: 'N-4-2',
+				'className'		: 'ribbon-4-2',
+				'description'	: 'Awarded to Cadets who recruit students into the JROTC program each quarters/semester'
+			},
+			'n43' : {
+				'name'			: 'Optional by SAI',
+				'serial'		: 'N-4-3',
+				'className'		: 'ribbon-4-3',
+				'description'	: ''
+			},
+			'n44' : {
+				'name'			: 'Optional by SAI',
+				'serial'		: 'N-4-4',
+				'className'		: 'ribbon-4-4',
+				'description'	: ''
+			},
+			'n45' : {
+				'name'			: 'Optional by SAI',
+				'serial'		: 'N-4-5',
+				'className'		: 'ribbon-4-5',
+				'description'	: ''
+			},
+			'n46' : {
+				'name'			: 'Service Learning',
+				'serial'		: 'N-4-6',
+				'className'		: 'ribbon-4-6',
+				'description'	: 'Awarded annually to Cadets who participate in service learning projects'
+			},
+			'n47' : {
+				'name'			: 'Excellent Staff Performance',
+				'serial'		: 'N-4-7',
+				'className'		: 'ribbon-4-7',
+				'description'	: 'Awarded annually to Cadet Staff Officers for excellent performance'
+			}
+		};
+
+		/* APP FUNCTIONALITY */
+		var app = {
+
+		   /**
+			*	Populate select and preview are with ribbons
+			*/
+			populateSelect : function() {
+				'use strict';
+				var ribbonSelectHtml = '',
+					ribbonPreviewHtml = '';
+	
+				for (var entry in ribbons) {
+					//console.log(ribbons[entry].serial);
+					var selectTemp = '<li data-index="' + entry + '"><div class="ribbon ' + ribbons[entry].className + '"></div><span>' + ribbons[entry].serial + ' ' + ribbons[entry].name + '</span></li>';
+					var previewTemp = '<li class="ribbon" data-index="' + entry + '" data-lamps="1"><div class="ribbon ' + ribbons[entry].className + '"></div><p>1st Award</p><span class="remove"></span><span class="increment"></span><span class="decrement"></span><div class="lamps"></div><div class="title">' + ribbons[entry].serial + ' ' + ribbons[entry].name + '</div><div class="hover-border"></div></li><li class="clear"></li>';
+					ribbonSelectHtml += selectTemp;
+					ribbonPreviewHtml += previewTemp;
+				}
+
+				$("#ribbon-select").html(ribbonSelectHtml);
+				$("#ribbon-preview").html(ribbonPreviewHtml);
+			},
+
+		   /**
+			*	Set ribbon spacing in preview are properly
+			*/
+			setRibbonSpacing : function() {
+				var visible = $("#ribbon-preview").find("li.ribbon:visible"),
+					i = 0;
+
+				$("#ribbon-preview").find("li.clear").hide();
+				$("#ribbon-preview").find("li").removeClass("single double");
+
+				// Clear appropriately, to isolate top one or two ribbons
+				for ( ; i < visible.length; i++) {
+					// 1 extra
+					if (visible.length % 3 === 1 && i % 3 === 1 && visible.length > 3)
+						$(visible[i]).prev("li.clear").show();
+					// 2 extra
+					else if (visible.length % 3 === 2 && i % 3 == 2 && visible.length > 3)
+						$(visible[i]).prev("li.clear").show();
+				}
+
+				// Center top ribbon(s) if there are only one or two
+				if (visible.length % 3 === 1)
+					$("#ribbon-preview").find("li.ribbon:visible").first().addClass("single");
+				else if (visible.length % 3 === 2) {
+					$(visible).eq(0).addClass("double");
+					$(visible).eq(1).addClass("double");
+				}					
+			},
+
+		   /**
+			*	Alert number of times this ribbon was awarded
+			*
+			*	@param ribbon (element)
+			*
+			*/
+			alertAwardCount : function(ribbon) {
+				var count = $(ribbon).attr('data-lamps'),
+					suffix = 'th';
+
+				if (count == '1')
+					suffix = 'st';
+				else if (count == '2')
+					suffix = 'nd';
+				else if (count == '3')
+					suffix = 'rd';
+
+				$(ribbon).find("p").html(count + suffix + ' Award');
+//				$(ribbon).find("p").finish();
+//				$(ribbon).find("p").html(count + suffix + ' Award').show().delay(900).fadeOut();
+			}
+		};
+
+		/* CONTROLLERS AND TRIGGERS */
+		$(document).ready(function() {
+			'use strict';
+			app.populateSelect();		
+		});
+
+		// On ribbon hover, show more info
+		$("#ribbon-select").on("mouseover", "li", function() {
+			//console.log(ribbons[$(this).attr("data-index")].serial);
+			//console.log(ribbons[$(this).attr("data-index")].name);
+			//console.log(ribbons[$(this).attr("data-index")].description);
+		});
+
+		// Add ribbon to preview
+		$("#ribbon-select").on("click", "li", function() {
+			var visibleRibbons = $("#ribbon-preview").find("li:visible").length + 1;
+
+			$(this).hide();
+			$("#ribbon-preview").find("li[data-index='" + $(this).attr("data-index") + "']").show();
+			$("#ribbon-preview").find("li[data-index='" + $(this).attr("data-index") + "']").find("p").text("1st Award");
+			app.setRibbonSpacing();
+		});
+
+		// Remove ribbon from preview
+		$("#ribbon-preview").on("click", "span.remove", function() {
+			var visibleRibbons = $("#ribbon-preview").find("li:visible").length - 1;
+
+			$(this).parent().hide();
+			$("#ribbon-select").find("li[data-index='" + $(this).parent().attr("data-index") + "']").show();
+			app.setRibbonSpacing();
+
+			$(this).siblings('.lamps').removeClass().addClass("lamps");;
+			$(this).parent().attr('data-lamps', '1');
+		});
+
+		// Increment lamp count
+		$("#ribbon-preview").on("click", "span.increment", function() {
+			var lampCount = $(this).parent().attr('data-lamps');
+			if (parseInt(lampCount) < 10) {
+				$(this).parent("li").attr('data-lamps', parseInt(lampCount) + 1);
+				$(this).siblings('.lamps').removeClass().addClass("lamps lamp-" + (parseInt(lampCount) + 1));
+			}
+			app.alertAwardCount($(this).parent());
+		});
+
+		// Decrement lamp count
+		$("#ribbon-preview").on("click", "span.decrement", function() {
+			var lampCount = $(this).parent().attr('data-lamps');
+			if (parseInt(lampCount) > 1) {
+				$(this).parent("li").attr('data-lamps', parseInt(lampCount) - 1);
+				$(this).siblings('.lamps').removeClass().addClass("lamps lamp-" + (parseInt(lampCount) - 1));
+			}
+			app.alertAwardCount($(this).parent());
+		});
+
+	</script>
 </body>
 </html>
