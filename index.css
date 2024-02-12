@@ -1,43 +1,225 @@
-body {
-    font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    background-color: #f5f5f5;
+/* CSS RESET */
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent;margin:0;padding:0}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:none}:focus{outline:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}*{margin:0;padding:0}
+
+/* GENERAL */
+html {font-family: 'Carrois Gothic', sans-serif; height: 100%;}
+body {height: 90%;}
+h1 {font-size: 2em; margin: 20px 10px 10px;}
+.instructions {float: left; margin: 0 10px 20px;}
+
+/* SELECT */
+#ribbon-select {height: 90%; overflow-x: hidden; overflow-y: auto; float: left;}
+#ribbon-select > li {margin: 8px; position: relative; cursor: pointer;}
+#ribbon-select > li > div {}
+#ribbon-select > li > span {display: block; width: 100%; font-size: 1.2em;}
+
+/* PREVIEW */
+#ribbon-preview {float: right; height: 90%; overflow-x: hidden; overflow-y: auto;}
+#ribbon-preview > li {margin: 1px; position: relative; float: left; display: none; overflow: visible;}
+#ribbon-preview > li.clear {margin: 0; position: relative; clear: both; float: none;}
+
+#ribbon-preview > li > div.hover-border {display: none; z-index: 3; position: absolute; top: 0; left: 0; border-color: #000; border-style: solid;}
+#ribbon-preview > li > p {position: absolute; display: none; text-align: center; z-index: 7; text-shadow: 0 0 8px #333; font-family: arial, helvetica; color: #eee;}
+#ribbon-preview > li > div.title {display: none; position: absolute; background-color: #333; color: #fff; z-index: 10;}
+#ribbon-preview > li > div.lamps {position: absolute; left: 0; background-repeat: no-repeat; z-index: 2;}
+
+#ribbon-preview > li > span {display: none; cursor: pointer; position: absolute; z-index: 4; background-image: url('img/sprite.png'); background-repeat: no-repeat;}
+#ribbon-preview > li > span.increment {}
+#ribbon-preview > li > span.decrement {}
+#ribbon-preview > li > span.remove {}
+
+#ribbon-preview > li:hover > span, #ribbon-preview > li:hover > p, #ribbon-preview > li:hover > div.title, #ribbon-preview > li:hover > div.hover-border {display: block;}
+
+/* GENERAL SPRITE */
+.sprite-delete-small{ background-position: 0 0; width: 32px; height: 32px; } 
+.sprite-delete{ background-position: 0 -34px; width: 64px; height: 64px; } 
+.sprite-down-small{ background-position: 0 -100px; width: 32px; height: 32px; } 
+.sprite-down{ background-position: 0 -134px; width: 64px; height: 64px; } 
+.sprite-up-small{ background-position: 0 -200px; width: 32px; height: 32px; } 
+.sprite-up{ background-position: 0 -234px; width: 64px; height: 64px; } 
+
+/* RIBBONS */
+.ribbon {background-repeat: no-repeat;}
+
+@media (min-width:1200px)
+{
+	/* SELECT */
+	#ribbon-select {width: 310px;}
+
+	/* PREVIEW */
+	#ribbon-preview {width: 865px;}
+	#ribbon-preview > li.single {position: relative; left: 280px;}
+	#ribbon-preview > li.double {position: relative; left: 140px;}
+
+	#ribbon-preview > li > div.hover-border {width: 268px; height: 58px; border-width: 6px;}
+	#ribbon-preview > li > p {top: 5px; left: 50px; width: 180px; font-size: 1.6em;}
+	#ribbon-preview > li > div.title {top: 70px; width: 270px; padding: 2px 5px; font-size: 1.2em;}
+
+	#ribbon-preview > li > span {height: 32px; width: 32px;}
+	#ribbon-preview > li > span.increment {right: 5px; top: 5px; background-position: 0 -200px;}
+	#ribbon-preview > li > span.decrement {right: 5px; top: 35px;background-position: 0 -100px;}
+	#ribbon-preview > li > span.remove {left: 3px; top: 3px; background-position: 0 0;}
+
+	/* RIBBONS */
+	.ribbon {background-image: url('img/ribbons.jpg'); height: 70px; width: 280px;}
+	.ribbon-1-1{ background-position: 0 0;} 
+	.ribbon-1-10{ background-position: 0 -72px;} 
+	.ribbon-1-2{ background-position: 0 -144px;} 
+	.ribbon-1-3{ background-position: 0 -216px;} 
+	.ribbon-1-4{ background-position: 0 -288px;} 
+	.ribbon-1-5{ background-position: 0 -360px;} 
+	.ribbon-1-6{ background-position: 0 -432px;} 
+	.ribbon-1-7{ background-position: 0 -504px;} 
+	.ribbon-1-8{ background-position: 0 -576px;} 
+	.ribbon-1-9{ background-position: 0 -648px;} 
+	.ribbon-2-1{ background-position: 0 -720px;} 
+	.ribbon-2-2{ background-position: 0 -792px;} 
+	.ribbon-2-3{ background-position: 0 -864px;} 
+	.ribbon-2-4{ background-position: 0 -936px;} 
+	.ribbon-2-5{ background-position: 0 -1009px;} 
+	.ribbon-3-1{ background-position: 0 -1081px;} 
+	.ribbon-3-10{ background-position: 0 -1153px;} 
+	.ribbon-3-11{ background-position: 0 -1225px;} 
+	.ribbon-3-12{ background-position: 0 -1297px;} 
+	.ribbon-3-13{ background-position: 0 -1369px;} 
+	.ribbon-3-14{ background-position: 0 -1441px;} 
+	.ribbon-3-15{ background-position: 0 -1513px;} 
+	.ribbon-3-2{ background-position: 0 -1585px;} 
+	.ribbon-3-3{ background-position: 0 -1657px;} 
+	.ribbon-3-4{ background-position: 0 -1729px;} 
+	.ribbon-3-5{ background-position: 0 -1801px;} 
+	.ribbon-3-6{ background-position: 0 -1873px;} 
+	.ribbon-3-7{ background-position: 0 -1945px;} 
+	.ribbon-3-8{ background-position: -282px 0;} 
+	.ribbon-3-9{ background-position: -282px -72px;} 
+	.ribbon-4-1{ background-position: -282px -144px;} 
+	.ribbon-4-2{ background-position: -282px -216px;} 
+	.ribbon-4-3{ background-position: -282px -288px;} 
+	.ribbon-4-4{ background-position: -282px -360px;} 
+	.ribbon-4-5{ background-position: -282px -432px;} 
+	.ribbon-4-6{ background-position: -282px -504px;} 
+	.ribbon-4-7{ background-position: -282px -576px;} 
+
+	/* LAMPS */
+	#ribbon-preview > li > div.lamps {height: 60px; width: 280px; top: 3px;}
+	.lamp-2 {background-position: -2px -88px; background-image: url('img/lamps.png');}
+	.lamp-3 {background-position: -2px -168px; background-image: url('img/lamps.png');}
+	.lamp-4 {background-position: -2px -248px; background-image: url('img/lamps.png');}
+	.lamp-5 {background-position: -2px -328px; background-image: url('img/lamps.png');}
+	.lamp-6 {background-position: -2px -408px; background-image: url('img/lamps.png');}
+	.lamp-7 {background-position: -2px -488px; background-image: url('img/lamps.png');}
+	.lamp-8 {background-position: -2px -568px; background-image: url('img/lamps.png');}
+	.lamp-9 {background-position: -2px -648px; background-image: url('img/lamps.png');}
+	.lamp-10 {background-position: -2px -8px; background-image: url('img/lamps.png');}
 }
 
-#ribbon-rack {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 10px;
-    padding: 20px;
-    background-color: #fff;
-    border: 2px solid #ccc;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+@media (max-width:1199px)
+{
+	/* PREVIEW */
+	#ribbon-preview > li > div.hover-border {width: 134px; height: 29px; border-width: 3px;}
+	#ribbon-preview > li > p {top: 8px; left: 0; width: 140px; font-size: 1.2em;}
+	#ribbon-preview > li > div.title {top: 35px; width: 130px; padding: 2px 5px; font-size: .9em;}
+
+	#ribbon-preview > li > span {height: 32px; width: 32px;}
+	#ribbon-preview > li > span.increment {right: -31px; top: 1px; background-position: 0 -200px;}
+	#ribbon-preview > li > span.decrement {right: -31px; top: 31px; background-position: 0 -100px;}
+	#ribbon-preview > li > span.remove {left: -31px; top: 1px; background-position: 0 0;}
+
+	/* RIBBONS */
+	.ribbon {background-image: url('img/ribbons-small.jpg'); height: 35px; width: 140px;}
+	.ribbon-1-1{ background-position: 0 0;} 
+	.ribbon-1-10{ background-position: 0 -36px;} 
+	.ribbon-1-2{ background-position: 0 -72px;} 
+	.ribbon-1-3{ background-position: 0 -108px;} 
+	.ribbon-1-4{ background-position: 0 -144px;} 
+	.ribbon-1-5{ background-position: 0 -180px;} 
+	.ribbon-1-6{ background-position: 0 -216px;} 
+	.ribbon-1-7{ background-position: 0 -252px;} 
+	.ribbon-1-8{ background-position: 0 -288px;} 
+	.ribbon-1-9{ background-position: 0 -324px;} 
+	.ribbon-2-1{ background-position: 0 -360px;} 
+	.ribbon-2-2{ background-position: 0 -396px;} 
+	.ribbon-2-3{ background-position: 0 -432px;} 
+	.ribbon-2-4{ background-position: 0 -468px;} 
+	.ribbon-2-5{ background-position: 0 -504px;} 
+	.ribbon-3-1{ background-position: 0 -540px;} 
+	.ribbon-3-10{ background-position: 0 -576px;} 
+	.ribbon-3-11{ background-position: 0 -612px;} 
+	.ribbon-3-12{ background-position: 0 -648px;} 
+	.ribbon-3-13{ background-position: 0 -685px;} 
+	.ribbon-3-14{ background-position: 0 -720px;} 
+	.ribbon-3-15{ background-position: 0 -756px;} 
+	.ribbon-3-2{ background-position: 0 -792px;} 
+	.ribbon-3-3{ background-position: 0 -828px;} 
+	.ribbon-3-4{ background-position: 0 -864px;} 
+	.ribbon-3-5{ background-position: 0 -900px;} 
+	.ribbon-3-6{ background-position: 0 -937px;} 
+	.ribbon-3-7{ background-position: 0 -973px;} 
+	.ribbon-3-8{ background-position: -141px 0;} 
+	.ribbon-3-9{ background-position: -141px -36px;} 
+	.ribbon-4-1{ background-position: -141px -72px;} 
+	.ribbon-4-2{ background-position: -141px -108px;} 
+	.ribbon-4-3{ background-position: -141px -144px;} 
+	.ribbon-4-4{ background-position: -141px -180px;} 
+	.ribbon-4-5{ background-position: -141px -216px;} 
+	.ribbon-4-6{ background-position: -141px -252px;} 
+	.ribbon-4-7{ background-position: -141px -288px;}
+
+	/* LAMPS */
+	#ribbon-preview > li > div.lamps {height: 30px; width: 140px; top: 1px;}
+	.lamp-2 {background-position: -1px -44px; background-image: url('img/lamps-small.png');}
+	.lamp-3 {background-position: -1px -84px; background-image: url('img/lamps-small.png');}
+	.lamp-4 {background-position: -1px -124px; background-image: url('img/lamps-small.png');}
+	.lamp-5 {background-position: -1px -164px; background-image: url('img/lamps-small.png');}
+	.lamp-6 {background-position: -1px -204px; background-image: url('img/lamps-small.png');}
+	.lamp-7 {background-position: -1px -244px; background-image: url('img/lamps-small.png');}
+	.lamp-8 {background-position: -1px -284px; background-image: url('img/lamps-small.png');}
+	.lamp-9 {background-position: -1px -324px; background-image: url('img/lamps-small.png');}
+	.lamp-10 {background-position: -1px -4px; background-image: url('img/lamps-small.png');}}
+
+@media (min-width:800px) and (max-width:1199px)
+{
+	/* SELECT */
+	#ribbon-select {width: 240px;}
+
+	/* PREVIEW */
+	#ribbon-preview {width: 440px; padding: 0 64px;}
+	#ribbon-select > li > span {font-size: .95em;}
+	#ribbon-preview > li.single {position: relative; left: 140px;}
+	#ribbon-preview > li.double {position: relative; left: 70px;}
+
+	/* RIBBONS */
+	.ribbon {height: 35px; width: 140px;}
+
+	/* LAMPS */
+	#ribbon-preview > li > div.lamps {height: 30px; width: 140px; top: 1px;}
 }
 
-.ribbon-option {
-    width: 50px;
-    height: 70px;
-    background-size: cover;
-    background-position: center;
-    border: 2px solid #ddd;
-    border-radius: 5px;
-    cursor: pointer;
+@media (min-width:481px) and (max-width:799px)
+{
+	/* SELECT */
+	#ribbon-select {width: 100%; height: 30%; margin: 0 auto; overflow: visible;}
+	#ribbon-select > li {float: left; width: 32%; margin: 0;}
+	#ribbon-select > li > div.ribbon {margin: 0 auto;}
+	#ribbon-select > li > span {font-size: .85em; height: 30px; margin: 2px 0 4px; overflow: hidden; text-align: center;}
+
+	/* PREVIEW */
+	#ribbon-preview {width: 430px; padding: 0 27px; margin: 10px auto 20px; float: none; height: 60%;}
+	#ribbon-select > li > span {font-size: .95em;}
+	#ribbon-preview > li.single {position: relative; left: 140px;}
+	#ribbon-preview > li.double {position: relative; left: 70px;}
+
+	/* RIBBONS */
+
+	/* LAMPS */
 }
 
-#ribbon-options {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    margin-top: 20px;
+@media (max-width:480px)
+{
+
 }
 
-/* Add more styling based on your preferences */
+@media (-webkit-min-device-pixel-ratio:1.5),(min-resolution:144dpi)
+{
+
+}
