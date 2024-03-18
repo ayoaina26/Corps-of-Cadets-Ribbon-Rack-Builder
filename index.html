@@ -1,31 +1,335 @@
+<html xmlns="http://www.w3.org/1999/xhtml"><head><style>.rdp {
+  --rdp-cell-size: 40px;
+  --rdp-accent-color: #0000ff;
+  --rdp-background-color: #e7edff;
+  --rdp-accent-color-dark: #3003e1;
+  --rdp-background-color-dark: #180270;
+  --rdp-outline: 2px solid var(--rdp-accent-color); /* Outline border for focused elements */
+  --rdp-outline-selected: 2px solid rgba(0, 0, 0, 0.75); /* Outline border for focused _and_ selected elements */
 
-<table border="0" align="center" cellpadding="0" cellspacing="0">
+  margin: 1em;
+}
+
+/* Hide elements for devices that are not screen readers */
+.rdp-vhidden {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  border: 0;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  position: absolute !important;
+  top: 0;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  clip: rect(1px, 1px, 1px, 1px) !important;
+  border: 0 !important;
+}
+
+/* Buttons */
+.rdp-button_reset {
+  appearance: none;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  cursor: default;
+  color: inherit;
+  outline: none;
+  background: none;
+  font: inherit;
+
+  -moz-appearance: none;
+  -webkit-appearance: none;
+}
+
+.rdp-button {
+  border: 2px solid transparent;
+}
+
+.rdp-button[disabled] {
+  opacity: 0.25;
+}
+
+.rdp-button:not([disabled]) {
+  cursor: pointer;
+}
+
+.rdp-button:focus:not([disabled]),
+.rdp-button:active:not([disabled]) {
+  color: inherit;
+  border: var(--rdp-outline);
+  background-color: var(--rdp-background-color);
+}
+
+.rdp-button:hover:not([disabled]) {
+  background-color: var(--rdp-background-color);
+}
+
+.rdp-months {
+  display: flex;
+}
+
+.rdp-month {
+  margin: 0 1em;
+}
+
+.rdp-month:first-child {
+  margin-left: 0;
+}
+
+.rdp-month:last-child {
+  margin-right: 0;
+}
+
+.rdp-table {
+  margin: 0;
+  max-width: calc(var(--rdp-cell-size) * 7);
+  border-collapse: collapse;
+}
+
+.rdp-with_weeknumber .rdp-table {
+  max-width: calc(var(--rdp-cell-size) * 8);
+  border-collapse: collapse;
+}
+
+.rdp-caption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0;
+  text-align: left;
+}
+
+.rdp-multiple_months .rdp-caption {
+  position: relative;
+  display: block;
+  text-align: center;
+}
+
+.rdp-caption_dropdowns {
+  position: relative;
+  display: inline-flex;
+}
+
+.rdp-caption_label {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  margin: 0;
+  padding: 0 0.25em;
+  white-space: nowrap;
+  color: currentColor;
+  border: 0;
+  border: 2px solid transparent;
+  font-family: inherit;
+  font-size: 140%;
+  font-weight: bold;
+}
+
+.rdp-nav {
+  white-space: nowrap;
+}
+
+.rdp-multiple_months .rdp-caption_start .rdp-nav {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+
+.rdp-multiple_months .rdp-caption_end .rdp-nav {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+}
+
+.rdp-nav_button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--rdp-cell-size);
+  height: var(--rdp-cell-size);
+  padding: 0.25em;
+  border-radius: 100%;
+}
+
+/* ---------- */
+/* Dropdowns  */
+/* ---------- */
+
+.rdp-dropdown_year,
+.rdp-dropdown_month {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.rdp-dropdown {
+  appearance: none;
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  cursor: inherit;
+  opacity: 0;
+  border: none;
+  background-color: transparent;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.rdp-dropdown[disabled] {
+  opacity: unset;
+  color: unset;
+}
+
+.rdp-dropdown:focus:not([disabled]) + .rdp-caption_label,
+.rdp-dropdown:active:not([disabled]) + .rdp-caption_label {
+  border: var(--rdp-outline);
+  border-radius: 6px;
+  background-color: var(--rdp-background-color);
+}
+
+.rdp-dropdown_icon {
+  margin: 0 0 0 5px;
+}
+
+.rdp-head {
+  border: 0;
+}
+
+.rdp-head_row,
+.rdp-row {
+  height: 100%;
+}
+
+.rdp-head_cell {
+  vertical-align: middle;
+  text-transform: uppercase;
+  font-size: 0.75em;
+  font-weight: 700;
+  text-align: center;
+  height: 100%;
+  height: var(--rdp-cell-size);
+  padding: 0;
+}
+
+.rdp-tbody {
+  border: 0;
+}
+
+.rdp-tfoot {
+  margin: 0.5em;
+}
+
+.rdp-cell {
+  width: var(--rdp-cell-size);
+  height: 100%;
+  height: var(--rdp-cell-size);
+  padding: 0;
+  text-align: center;
+}
+
+.rdp-weeknumber {
+  font-size: 0.75em;
+}
+
+.rdp-weeknumber,
+.rdp-day {
+  display: flex;
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: var(--rdp-cell-size);
+  max-width: var(--rdp-cell-size);
+  height: var(--rdp-cell-size);
+  margin: 0;
+  border: 2px solid transparent;
+  border-radius: 100%;
+}
+
+.rdp-day_today:not(.rdp-day_outside) {
+  font-weight: bold;
+}
+
+.rdp-day_selected:not([disabled]),
+.rdp-day_selected:focus:not([disabled]),
+.rdp-day_selected:active:not([disabled]),
+.rdp-day_selected:hover:not([disabled]) {
+  color: white;
+  background-color: var(--rdp-accent-color);
+}
+
+.rdp-day_selected:focus:not([disabled]) {
+  border: var(--rdp-outline-selected);
+}
+
+.rdp:not([dir='rtl']) .rdp-day_range_start:not(.rdp-day_range_end) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.rdp:not([dir='rtl']) .rdp-day_range_end:not(.rdp-day_range_start) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.rdp[dir='rtl'] .rdp-day_range_start:not(.rdp-day_range_end) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.rdp[dir='rtl'] .rdp-day_range_end:not(.rdp-day_range_start) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.rdp-day_range_end.rdp-day_range_start {
+  border-radius: 100%;
+}
+
+.rdp-day_range_middle {
+  border-radius: 0;
+}
+</style></head><body><table border="0" align="center" cellpadding="0" cellspacing="0">
   <!--DWLayoutTable-->
-  <tr>
+  <tbody><tr>
     <td height="2"><!--DWLayoutEmptyCell-->&nbsp;</td>
-    <td valign="top"><img src="spacer.gif" width="538" height="2" /></td>
+    <td valign="top"><img src="spacer.gif" width="538" height="2"></td>
     <td valign="top"><!--DWLayoutEmptyCell-->&nbsp;</td>
   </tr>
   <tr>
     <td height="105"><div align="center">
-      <p><img src="NL1.jpg" width="74" height="105" /></p>
+      <p><img src="NL1.jpg" width="74" height="105"></p>
       </div></td>
     <td valign="top"><div align="center"><strong> <font color="#990000" size="7" face="Arial, Helvetica, sans-serif">Corps of Cadets </font></strong></div>
-      <div align="right"><strong><em><font color="#006699" size="3" face="Arial, Helvetica, sans-serif">Fountain &#8226;  Texas A&M University </font><font color="#FFFFFF">--</font></em></strong></div>      <div align="right"><br />
+      <div align="right"><strong><em><font color="#006699" size="3" face="Arial, Helvetica, sans-serif">Fountain •  Texas A&amp;M University </font><font color="#FFFFFF">--</font></em></strong></div>      <div align="right"><br>
       </div>
       <div align="center">
         <p><strong><font color="#990000" size="4" face="Verdana, Arial, Helvetica, sans-serif">Ribbon Sorter</font></strong></p>
       </div></td>
-    <td><a href="http://trojansjrotcmesshall.pbworks.com"><img src="FFCPatch.jpg" alt="Return to the Trojan main page" width="86" height="105" border="0" /></a></td>
+    <td><a href="http://trojansjrotcmesshall.pbworks.com"><img src="FFCPatch.jpg" alt="Return to the Trojan main page" width="86" height="105" border="0"></a></td>
   </tr>
   
-</table>
+</tbody></table>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<title>Texas A&M Corps of Cadets sorter</title>
+
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Texas A&amp;M Corps of Cadets sorter</title>
 <script type="text/javascript">
 <!--
 function highlight(box, obj)
@@ -52,511 +356,486 @@ a {
 }
 -->
 </style>
-</head>
-<body>
+
+
 <table width="599" border="0" align="center">
-  <tr>
+  <tbody><tr>
     <td width="593" height="67" valign="middle"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Check the box next to each ribbon you would like to have sorted. After clicking submit the Ribbon Sorter will show you how the ribbons should look on your uniform! </font></td>
   </tr>
-</table>
+</tbody></table>
 <form id="form1" name="form1" method="post" action="index.php">
   <table width="720" border="1" align="center" cellpadding="4" cellspacing="0" bordercolor="#CCCCCC">
   <!--DWLayoutTable-->
-  <tr>
-    <td height="161" colspan="2" valign="top"><table width="100%" border="0" cellpadding="3" cellspacing="0">
-      <!--DWLayoutTable-->
-      <tr id="check_1">
-        <td width="29" height="249" valign="top"><!--DWLayoutEmptyCell-->&nbsp;</td>
-        <td valign="top"><div align="center">
-          <p><br />
-            <img width="95" height="25" src="index_clip_image001_0001.jpg" />
-              <input name="ribbon[]" type="checkbox" id="ribbon[]" value="1" onClick="highlight(this,'check_1')" />
-            </p>
-          </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Medal for Heroism</font></p>          <p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Awarded by the Department of the Army to any JROTC cadet who performs an act of heroism.         </font></p></td>
-      <td width="17" valign="top"><!--DWLayoutEmptyCell-->&nbsp;</td>
-      </tr>
-      
-      
-      
-    </table></td>
-    <td colspan="2" valign="top"><table width="100%" border="0" cellpadding="3" cellspacing="0">
-      <!--DWLayoutTable-->
-      <tr id="check_2">
-        <td width="32" height="243" valign="top"><!--DWLayoutEmptyCell-->&nbsp;</td>
-        <td align="center" valign="top"><div align="center"><br />
-          <img width="95" height="25" src="index_clip_image001_0002.jpg" />          
-          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="2" onClick="highlight(this,'check_2')" />        
-        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Superior Cadet</font></p>          <p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Awarded annually by the Department of the Army to one outstanding cadet in each LET level.         </font></p></td>
-    <td width="26" valign="top"><!--DWLayoutEmptyCell-->&nbsp;</td>
-      </tr>
-      
-          </table></td>
+  <tbody><tr>
+    
+    
   </tr> <!--DWLayoutTable-->
   <tr>
     <td width="239" height="47" valign="top"><table width="100%" border="0" cellpadding="3" cellspacing="0">
       <!--DWLayoutTable-->
-      <tr>
-        <td height="10" valign="top"><img src="spacer.gif" width="239" height="8" /></td>
+      <tbody><tr>
+        <td height="10" valign="top"><img src="spacer.gif" width="239" height="8"></td>
       </tr>
-      <tr id="check_3">
-        <td valign="top"><div align="center"><img width="95" height="25" src="CorpsMeritoriousServiceAward.png" />
-          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="3" onClick="highlight(this,'check_3')" />
-        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">1<br />
+      <tr id="check_3" style="background: yellow;">
+        <td valign="top"><div align="center"><img width="95" height="25" src="CorpsMeritoriousServiceAward.png">
+          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="3" onclick="highlight(this,'check_3')">
+        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">1<br>
             <u>Meritorious Service Award</u></font><font size="2"><u></u></font></p>          <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">One cadet for overall highest academic excellence.         </font></p></td>
     </tr>
       
-    </table>    </td>
+    </tbody></table>    </td>
     <td colspan="2" valign="top"><table width="100%" height="249" border="0" cellpadding="3" cellspacing="0">
       <!--DWLayoutTable-->
-      <tr>
-        <td height="10" valign="top"><img src="spacer.gif" width="239" height="8" /></td>
+      <tbody><tr>
+        <td height="10" valign="top"><img src="spacer.gif" width="239" height="8"></td>
       </tr>
       <tr id="check_4">
-        <td valign="top"><div align="center"><img width="95" height="25" src="index_clip_image001_0000.gif" />
-          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="4"  onClick="highlight(this,'check_4')"/>
-        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-1-2</font><br />
+        <td valign="top"><div align="center"><img width="95" height="25" src="index_clip_image001_0000.gif">
+          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="4" onclick="highlight(this,'check_4')">
+        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-1-2</font><br>
             <u><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Academic Excellence</font></u></p>          <p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">One cadet in each LET level for academic excellence.         </font></p></td>
     </tr>
       
-    </table>    </td>
+    </tbody></table>    </td>
     <td width="239" valign="top"><table width="100%" height="248" border="0" cellpadding="3" cellspacing="0">
       <!--DWLayoutTable-->
-      <tr>
-        <td height="10" valign="top"><img src="spacer.gif" width="239" height="8" /></td>
+      <tbody><tr>
+        <td height="10" valign="top"><img src="spacer.gif" width="239" height="8"></td>
       </tr>
       <tr id="check_5">
-        <td valign="top"><div align="center"><img width="95" height="25" src="index_clip_image001_0001.gif" />
-          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="5" onClick="highlight(this,'check_5')" />
-        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-1-3<br />
+        <td valign="top"><div align="center"><img width="95" height="25" src="index_clip_image001_0001.gif">
+          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="5" onclick="highlight(this,'check_5')">
+        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-1-3<br>
             <u>Academic Achievement</u></font></p>          <p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Current semester GPA of 3.5 or higher.         </font>.</p></td>
   </tr>
       
-    </table>    </td>
+    </tbody></table>    </td>
   </tr> <!--DWLayoutTable-->
   <tr>
     <td height="47" valign="top"><table width="100%" height="170" border="0" cellpadding="3" cellspacing="0">
       <!--DWLayoutTable-->
-      <tr id="check_6">
-        <td valign="top"><div align="center"><img width="95" height="25" src="index_clip_image001_0002.gif" />
-          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="6"  onClick="highlight(this,'check_6')"/>
-        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-1-4<br />
+      <tbody><tr id="check_6">
+        <td valign="top"><div align="center"><img width="95" height="25" src="index_clip_image001_0002.gif">
+          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="6" onclick="highlight(this,'check_6')">
+        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-1-4<br>
             <u>Perfect Attendance</u></font></p>          <p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">
 			No absences each semester.         </font></p></td>
     </tr>
       
-    </table>    </td>
+    </tbody></table>    </td>
     <td colspan="2" valign="top"><table width="100%" height="174" border="0" cellpadding="3" cellspacing="0">
       <!--DWLayoutTable-->
-      <tr id="check_7">
-        <td valign="top"><div align="center"><img width="95" height="25" src="index_clip_image001_0003.gif" />
-          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="7"  onClick="highlight(this,'check_7')"/>
-        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-1-5<br />
+      <tbody><tr id="check_7">
+        <td valign="top"><div align="center"><img width="95" height="25" src="index_clip_image001_0003.gif">
+          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="7" onclick="highlight(this,'check_7')">
+        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-1-5<br>
             <u>Student Government</u></font></p>          <p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Elected to a student government office.        </font></p></td>
     </tr>
       
-    </table>    </td>
+    </tbody></table>    </td>
     <td valign="top"><table width="100%" height="173" border="0" cellpadding="3" cellspacing="0">
       <!--DWLayoutTable-->
-      <tr id="check_8">
-        <td valign="top"><div align="center"><img width="95" height="25" src="index_clip_image001_0004.gif" />
-          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="8"  onClick="highlight(this,'check_8')"/>
-        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-1-6<br />
+      <tbody><tr id="check_8">
+        <td valign="top"><div align="center"><img width="95" height="25" src="index_clip_image001_0004.gif">
+          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="8" onclick="highlight(this,'check_8')">
+        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-1-6<br>
             <u>LET Service</u></font></p>          <p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Successfully complete each LET level.        </font></p></td>
   </tr>
       
-    </table>    </td>
+    </tbody></table>    </td>
   </tr> <!--DWLayoutTable-->
   <tr>
     <td height="47" valign="top"><table width="100%" height="176" border="0" cellpadding="3" cellspacing="0">
       <!--DWLayoutTable-->
-      <tr id="check_9">
-        <td valign="top"><div align="center"><img width="95" height="25" src="index_clip_image001_0005.gif" />
-          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="9"  onClick="highlight(this,'check_9')"/>
-        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-1-7<br />
+      <tbody><tr id="check_9">
+        <td valign="top"><div align="center"><img width="95" height="25" src="index_clip_image001_0005.gif">
+          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="9" onclick="highlight(this,'check_9')">
+        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-1-7<br>
             <u>Academic Performance</u></font></p>          
           <p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">3.0-3.49 GPA.        </font></p></td>
     </tr>
       
-    </table>    </td>
+    </tbody></table>    </td>
     <td colspan="2" valign="top"><table width="100%" height="173" border="0" cellpadding="3" cellspacing="0">
       <!--DWLayoutTable-->
-      <tr id="check_10">
-        <td valign="top"><div align="center"><img width="95" height="25" src="index_clip_image001_0006.gif" />
-          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="10"  onClick="highlight(this,'check_10')"/>
-        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-1-8<br />
+      <tbody><tr id="check_10">
+        <td valign="top"><div align="center"><img width="95" height="25" src="index_clip_image001_0006.gif">
+          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="10" onclick="highlight(this,'check_10')">
+        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-1-8<br>
             <u>National Honor Society</u></font></p>          <p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Member of the National Honor Society.        </font></p></td>
     </tr>
       
-    </table>    </td>
+    </tbody></table>    </td>
     <td valign="top"><table width="100%" height="171" border="0" cellpadding="3" cellspacing="0">
       <!--DWLayoutTable-->
-      <tr id="check_11">
-        <td valign="top"><div align="center"><img width="95" height="25" src="index_clip_image001_0007.gif" />
-          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="11"  onClick="highlight(this,'check_11')"/>
-        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-1-9<br />
+      <tbody><tr id="check_11">
+        <td valign="top"><div align="center"><img width="95" height="25" src="index_clip_image001_0007.gif">
+          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="11" onclick="highlight(this,'check_11')">
+        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-1-9<br>
             <u>Cadet of the Year</u></font></p>          
           <p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Awarded annually in each LET level.        </font></p></td>
   </tr>
       
-    </table>    </td>
+    </tbody></table>    </td>
   </tr> <!--DWLayoutTable-->
   <tr>
     <td height="47" valign="top"><table width="100%" height="187" border="0" cellpadding="3" cellspacing="0">
       <!--DWLayoutTable-->
-      <tr id="check_12">
-        <td valign="top"><div align="center"><img width="95" height="25" src="index_clip_image001_0008.gif" />
-          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="12"  onClick="highlight(this,'check_12')"/>
-        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-1-10<br />
+      <tbody><tr id="check_12">
+        <td valign="top"><div align="center"><img width="95" height="25" src="index_clip_image001_0008.gif">
+          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="12" onclick="highlight(this,'check_12')">
+        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-1-10<br>
             <u>Cadet of the Month</u></font></p>          
           <p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Awarded monthly in each LET level.        </font></p></td>
     </tr>
       
-    </table>    </td>
+    </tbody></table>    </td>
     <td colspan="2" valign="top"><table width="100%" height="188" border="0" cellpadding="3" cellspacing="0">
       <!--DWLayoutTable-->
-      <tr id="check_13">
-        <td valign="top"><div align="center"><img width="95" height="25" src="index_clip_image001_0009.gif" />
-          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="13"  onClick="highlight(this,'check_13')"/>
-        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-3-1<br />
+      <tbody><tr id="check_13">
+        <td valign="top"><div align="center"><img width="95" height="25" src="index_clip_image001_0009.gif">
+          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="13" onclick="highlight(this,'check_13')">
+        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-3-1<br>
             <u>SAI instructor Leadership</u></font></p>          
           <p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">One cadet in each LET level for the highest leadership.        </font></p></td>
     </tr>
       
-    </table>    </td>
+    </tbody></table>    </td>
     <td valign="top"><table width="100%" height="191" border="0" cellpadding="3" cellspacing="0">
       <!--DWLayoutTable-->
-      <tr id="check_14">
-        <td valign="top"><div align="center"><img width="95" height="25" src="index_clip_image001_0010.gif" />
-          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="14"  onClick="highlight(this,'check_14')"/>
-        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-3-2<br />
+      <tbody><tr id="check_14">
+        <td valign="top"><div align="center"><img width="95" height="25" src="index_clip_image001_0010.gif">
+          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="14" onclick="highlight(this,'check_14')">
+        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-3-2<br>
             <u>Personal Appearance</u></font></p>          <p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Awarded for consistently outstanding appearance.        </font></p></td>
   </tr>
       
-    </table>    </td>
+    </tbody></table>    </td>
   </tr> <!--DWLayoutTable-->
   <tr>
     <td height="47" valign="top"><table width="100%" border="0" cellpadding="3" cellspacing="0">
       <!--DWLayoutTable-->
-      <tr id="check_15">
-        <td valign="top"><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img width="95" height="25" src="index_clip_image001_0011.gif" /></font>
-          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="15"  onClick="highlight(this,'check_15')"/>
-        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-3-3<br />
+      <tbody><tr id="check_15">
+        <td valign="top"><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img width="95" height="25" src="index_clip_image001_0011.gif"></font>
+          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="15" onclick="highlight(this,'check_15')">
+        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-3-3<br>
             <u>Proficiency</u></font></p>          <p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Demonstrate exceptional leadership, academics and duty performance.        </font></p></td>
     </tr>
       
-    </table>    </td>
+    </tbody></table>    </td>
     <td colspan="2" valign="top"><table width="100%" height="185" border="0" cellpadding="3" cellspacing="0">
       <!--DWLayoutTable-->
-      <tr id="check_16">
-        <td valign="top"><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img width="95" height="25" src="index_clip_image001_0012.gif" /></font>
-          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="16"  onClick="highlight(this,'check_16')"/>
-        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-3-4<br />
+      <tbody><tr id="check_16">
+        <td valign="top"><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img width="95" height="25" src="index_clip_image001_0012.gif"></font>
+          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="16" onclick="highlight(this,'check_16')">
+        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-3-4<br>
             <u>Drill Team</u></font></p>          <p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Awarded annually to Drill Team members.        </font></p></td>
     </tr>
       
-    </table>    </td>
+    </tbody></table>    </td>
     <td valign="top"><table width="100%" border="0" cellpadding="3" cellspacing="0">
       <!--DWLayoutTable-->
-      <tr id="check_17">
-        <td valign="top"><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img width="95" height="25" src="index_clip_image001_0013.gif" /></font>
-          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="17"  onClick="highlight(this,'check_17')"/>
-        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-3-5<br />
+      <tbody><tr id="check_17">
+        <td valign="top"><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img width="95" height="25" src="index_clip_image001_0013.gif"></font>
+          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="17" onclick="highlight(this,'check_17')">
+        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-3-5<br>
             <u>Orienteering</u></font></p>          <p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Awarded annually to orienteering team members.        </font></p></td>
   </tr>
       
-    </table>    </td>
+    </tbody></table>    </td>
   </tr> <!--DWLayoutTable-->
   <tr>
     <td height="47" valign="top"><table width="100%" border="0" cellpadding="3" cellspacing="0">
       <!--DWLayoutTable-->
-      <tr id="check_18">
-        <td valign="top"><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img width="95" height="25" src="index_clip_image001_0014.gif" /></font>
-          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="18" onClick="highlight(this,'check_18')" />
-        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-3-6<br />
+      <tbody><tr id="check_18">
+        <td valign="top"><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img width="95" height="25" src="index_clip_image001_0014.gif"></font>
+          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="18" onclick="highlight(this,'check_18')">
+        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-3-6<br>
             <u>Color/Honor Guard</u></font></p>          <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Awarded annually to color/honor guard members.    </font></p></td>
     </tr>
       
-    </table>    </td>
+    </tbody></table>    </td>
     <td colspan="2" valign="top"><table width="100%" border="0" cellpadding="3" cellspacing="0">
       <!--DWLayoutTable-->
-      <tr id="check_19">
-        <td valign="top"><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img width="95" height="25" src="index_clip_image001_0015.gif" /></font>
-          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="19" onClick="highlight(this,'check_19')" />
-        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-3-7<br />
+      <tbody><tr id="check_19">
+        <td valign="top"><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img width="95" height="25" src="index_clip_image001_0015.gif"></font>
+          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="19" onclick="highlight(this,'check_19')">
+        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-3-7<br>
             <u>Rifle Team</u></font></p>          <p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Awarded annually to rifle team members.        </font></p></td>
     </tr>
       
-    </table>    </td>
+    </tbody></table>    </td>
     <td valign="top"><table width="100%" border="0" cellpadding="3" cellspacing="0">
       <!--DWLayoutTable-->
-      <tr id="check_20">
-        <td valign="top"><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img width="95" height="25" src="index_clip_image001_0016.gif" /></font>
-          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="20" onClick="highlight(this,'check_20')" />
-        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-3-8<br />
+      <tbody><tr id="check_20">
+        <td valign="top"><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img width="95" height="25" src="index_clip_image001_0016.gif"></font>
+          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="20" onclick="highlight(this,'check_20')">
+        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-3-8<br>
             <u>Adventure Training</u></font></p>          <p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Awarded to cadets who complete adventure training.        </font></p></td>
   </tr>
       
-    </table>    </td>
+    </tbody></table>    </td>
   </tr> <!--DWLayoutTable-->
   <tr>
     <td height="47" valign="top"><table width="100%" border="0" cellpadding="3" cellspacing="0">
       <!--DWLayoutTable-->
-      <tr id="check_21">
-        <td valign="top"><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img width="95" height="25" src="index_clip_image001_0017.gif" /></font>
-          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="21" onClick="highlight(this,'check_21')" />
-        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-3-9<br />
+      <tbody><tr id="check_21">
+        <td valign="top"><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img width="95" height="25" src="index_clip_image001_0017.gif"></font>
+          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="21" onclick="highlight(this,'check_21')">
+        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-3-9<br>
             <u>Commendation</u></font></p>          <p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Duty performance exceeds grade expectations.        </font></p></td>
     </tr>
       
-    </table>    </td>
+    </tbody></table>    </td>
     <td colspan="2" valign="top"><table width="100%" height="168" border="0" cellpadding="3" cellspacing="0">
       <!--DWLayoutTable-->
-      <tr id="check_22">
-        <td valign="top"><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img width="95" height="25" src="index_clip_image001_0018.gif" /></font>
-          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="22"  onClick="highlight(this,'check_22')"/>
-        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-3-10<br />
+      <tbody><tr id="check_22">
+        <td valign="top"><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img width="95" height="25" src="index_clip_image001_0018.gif"></font>
+          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="22" onclick="highlight(this,'check_22')">
+        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-3-10<br>
             <u>Good Conduct</u></font></p>          <p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Demonstrate outstanding conduct throughout the school.        </font></p></td>
     </tr>
       
-    </table>    </td>
+    </tbody></table>    </td>
     <td valign="top"><table width="100%" border="0" cellpadding="3" cellspacing="0">
       <!--DWLayoutTable-->
-      <tr id="check_23">
-        <td valign="top"><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img width="95" height="25" src="index_clip_image001_0019.gif" /></font>
-          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="23" onClick="highlight(this,'check_23')" />
-        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-3-11<br />
+      <tbody><tr id="check_23">
+        <td valign="top"><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img width="95" height="25" src="index_clip_image001_0019.gif"></font>
+          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="23" onclick="highlight(this,'check_23')">
+        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-3-11<br>
             <u>JCLC</u></font></p>          <p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Attend and complete JROTC summer camp.        </font></p></td>
   </tr>
       
-    </table>    </td>
+    </tbody></table>    </td>
   </tr> <!--DWLayoutTable-->
   <tr>
     <td height="47" valign="top"><table width="100%" height="186" border="0" cellpadding="3" cellspacing="0">
       <!--DWLayoutTable-->
-      <tr id="check_24">
-        <td valign="top"><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img width="95" height="25" src="index_clip_image001_0020.gif" /></font>
-          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="24" onClick="highlight(this,'check_24')" />
-        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-3-12<br />
+      <tbody><tr id="check_24">
+        <td valign="top"><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img width="95" height="25" src="index_clip_image001_0020.gif"></font>
+          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="24" onclick="highlight(this,'check_24')">
+        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-3-12<br>
             <u>Humanitarian</u></font></p>          
           <p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Humanitarian contribution to the community.        </font></p></td>
     </tr>
       
-    </table>    </td>
+    </tbody></table>    </td>
     <td colspan="2" valign="top"><table width="100%" height="189" border="0" cellpadding="3" cellspacing="0">
       <!--DWLayoutTable-->
-      <tr id="check_25">
-        <td valign="top"><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img width="95" height="25" src="index_clip_image001_0021.gif" /></font>
-          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="25" onClick="highlight(this,'check_25')" />
-        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-3-13<br />
+      <tbody><tr id="check_25">
+        <td valign="top"><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img width="95" height="25" src="index_clip_image001_0021.gif"></font>
+          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="25" onclick="highlight(this,'check_25')">
+        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-3-13<br>
             <u>Formal Inspection</u></font></p>          <p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Participate in a formal inspection.        </font></p></td>
     </tr>
       
-    </table>    </td>
+    </tbody></table>    </td>
     <td valign="top"><table width="100%" height="187" border="0" cellpadding="3" cellspacing="0">
       <!--DWLayoutTable-->
-      <tr id="check_26">
-        <td valign="top"><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img width="95" height="25" src="index_clip_image001_0022.gif" /></font>
-          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="26" onClick="highlight(this,'check_26')" />
-        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-3-14<br />
+      <tbody><tr id="check_26">
+        <td valign="top"><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img width="95" height="25" src="index_clip_image001_0022.gif"></font>
+          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="26" onclick="highlight(this,'check_26')">
+        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-3-14<br>
             <u>Saber Team</u></font></p>          
           <p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Awarded annually to saber team members.        </font></p></td>
   </tr>
       
-    </table>    </td>
+    </tbody></table>    </td>
   </tr> <!--DWLayoutTable-->
   <tr>
     <td height="47" valign="top"><table width="100%" height="232" border="0" cellpadding="3" cellspacing="0">
       <!--DWLayoutTable-->
-      <tr id="check_27">
-        <td valign="top"><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img width="95" height="25" src="index_clip_image001_0023.gif" /></font>
-          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="27" onClick="highlight(this,'check_27')" />
-        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-3-15<br />
+      <tbody><tr id="check_27">
+        <td valign="top"><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img width="95" height="25" src="index_clip_image001_0023.gif"></font>
+          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="27" onclick="highlight(this,'check_27')">
+        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-3-15<br>
             <u>Fundraiser Ribbon</u></font></p>          
           <p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Participate in a fundraiser during the school year.        </font></p></td>
     </tr>
       
-    </table>    </td>
+    </tbody></table>    </td>
     <td colspan="2" valign="top"><table width="100%" height="232" border="0" cellpadding="3" cellspacing="0">
       <!--DWLayoutTable-->
-      <tr id="check_28">
-        <td valign="top"><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img width="95" height="25" src="index_clip_image001_0024.gif" /></font>
-          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="28" onClick="highlight(this,'check_28')" />
-        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-2-1<br />
+      <tbody><tr id="check_28">
+        <td valign="top"><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img width="95" height="25" src="index_clip_image001_0024.gif"></font>
+          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="28" onclick="highlight(this,'check_28')">
+        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-2-1<br>
             <u>Varsity Athletics</u></font></p>          <p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Awarded annually to varsity letter recipients.        </font></p></td>
     </tr>
       
-    </table>    </td>
+    </tbody></table>    </td>
     <td valign="top"><table width="100%" border="0" cellpadding="3" cellspacing="0">
       <!--DWLayoutTable-->
-      <tr id="check_29">
-        <td valign="top"><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img width="95" height="25" src="index_clip_image001_0025.gif" /></font>
-          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="29" onClick="highlight(this,'check_29')" />
-        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-2-2<br />
+      <tbody><tr id="check_29">
+        <td valign="top"><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img width="95" height="25" src="index_clip_image001_0025.gif"></font>
+          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="29" onclick="highlight(this,'check_29')">
+        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-2-2<br>
                 <u>Physical Fitness</u></font></p>          <p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Attain 85% or better in all 5 Cadet Challenge events.        </font></p></td>
   </tr>
       
-    </table>    </td>
+    </tbody></table>    </td>
   </tr> <!--DWLayoutTable-->
   <tr>
     <td height="47" valign="top"><table width="100%" height="205" border="0" cellpadding="3" cellspacing="0">
       <!--DWLayoutTable-->
-      <tr id="check_30">
-        <td valign="top"><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img width="95" height="25" src="index_clip_image001_0026.gif" /></font>
-          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="30" onClick="highlight(this,'check_30')" />
-        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-2-3<br />
+      <tbody><tr id="check_30">
+        <td valign="top"><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img width="95" height="25" src="index_clip_image001_0026.gif"></font>
+          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="30" onclick="highlight(this,'check_30')">
+        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-2-3<br>
             <u>JROTC Athletics</u></font></p>          <p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Attain 50%-84% in all 5 Cadet Challenge events.        </font></p></td>
     </tr>
       
-    </table>    </td>
+    </tbody></table>    </td>
     <td colspan="2" valign="top"><table width="100%" height="206" border="0" cellpadding="3" cellspacing="0">
       <!--DWLayoutTable-->
-      <tr id="check_31">
-        <td valign="top"><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img width="95" height="25" src="index_clip_image001_0027.gif" /></font>
-          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="31"  onClick="highlight(this,'check_31')"/>
-        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-2-4<br />
+      <tbody><tr id="check_31">
+        <td valign="top"><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img width="95" height="25" src="index_clip_image001_0027.gif"></font>
+          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="31" onclick="highlight(this,'check_31')">
+        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-2-4<br>
             <u>Athletic Achievement</u></font></p>          
           <p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Attain 180 points on the army Physical Fitness Exam.        </font></p></td>
     </tr>
       
-    </table>    </td>
+    </tbody></table>    </td>
     <td valign="top"><table width="100%" height="204" border="0" cellpadding="3" cellspacing="0">
       <!--DWLayoutTable-->
-      <tr id="check_32">
-        <td valign="top"><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img width="95" height="25" src="index_clip_image001_0028.gif" /></font>
-          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="32" onClick="highlight(this,'check_32')" />
-        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-2-5<br />
+      <tbody><tr id="check_32">
+        <td valign="top"><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img width="95" height="25" src="index_clip_image001_0028.gif"></font>
+          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="32" onclick="highlight(this,'check_32')">
+        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-2-5<br>
             <u>Athletic Participation</u></font></p>          
           <p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Complete all 5 cadet challenge events.        </font></p></td>
   </tr>
       
-    </table>    </td>
+    </tbody></table>    </td>
   </tr> <!--DWLayoutTable-->
   <tr>
     <td height="47" valign="top"><table width="100%" border="0" cellpadding="3" cellspacing="0">
       <!--DWLayoutTable-->
-      <tr id="check_33">
-        <td valign="top"><div align="center"><img width="95" height="25" src="index_clip_image001_0029.gif" />
-          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="33" onClick="highlight(this,'check_33')" />
-        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-4-1<br />
+      <tbody><tr id="check_33">
+        <td valign="top"><div align="center"><img width="95" height="25" src="index_clip_image001_0029.gif">
+          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="33" onclick="highlight(this,'check_33')">
+        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-4-1<br>
             <u>Parade</u></font></p>          <p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">March in a parade during the school year.        </font></p></td>
     </tr>
       
-    </table>    </td>
+    </tbody></table>    </td>
     <td colspan="2" valign="top"><table width="100%" border="0" cellpadding="3" cellspacing="0">
       <!--DWLayoutTable-->
-      <tr id="check_34">
-        <td valign="top"><div align="center"><img width="95" height="25" src="index_clip_image001_0030.gif" />
-          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="34" onClick="highlight(this,'check_34')" />
-        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-4-2<br />
+      <tbody><tr id="check_34">
+        <td valign="top"><div align="center"><img width="95" height="25" src="index_clip_image001_0030.gif">
+          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="34" onclick="highlight(this,'check_34')">
+        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-4-2<br>
             <u>Recruiting</u></font></p>          <p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Recruit a student into the program as a cadet.        </font></p></td>
     </tr>
       
-    </table>    </td>
+    </tbody></table>    </td>
     <td valign="top"><table width="100%" height="168" border="0" cellpadding="3" cellspacing="0">
       <!--DWLayoutTable-->
-      <tr id="check_35">
-        <td valign="top"><div align="center"><img width="95" height="25" src="index_clip_image001_0031.gif" />
-          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="35" onClick="highlight(this,'check_35')" />
-        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-4-3<br />
+      <tbody><tr id="check_35">
+        <td valign="top"><div align="center"><img width="95" height="25" src="index_clip_image001_0031.gif">
+          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="35" onclick="highlight(this,'check_35')">
+        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-4-3<br>
             <u>CyberPatriot</u></font></p>          
           <div align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Awarded annually to Cyberpatriot team members.     </font></div></td>
   </tr>
       
-    </table>    </td>
+    </tbody></table>    </td>
   </tr> <!--DWLayoutTable-->
   <tr>
     <td height="47" valign="top"><table width="100%" border="0" cellpadding="3" cellspacing="0">
       <!--DWLayoutTable-->
-      <tr id="check_36">
-        <td valign="top"><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img width="95" height="25" src="index_clip_image001_0032.gif" /></font>
-          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="36" onClick="highlight(this,'check_36')" />
-        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-4-4<br />
+      <tbody><tr id="check_36">
+        <td valign="top"><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img width="95" height="25" src="index_clip_image001_0032.gif"></font>
+          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="36" onclick="highlight(this,'check_36')">
+        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-4-4<br>
             <u>Volunteer/Community Service</u></font></p>          
           <p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Volunteer at school or in the community.        </font></p></td>
     </tr>
       
-    </table>    </td>
+    </tbody></table>    </td>
     <td colspan="2" valign="top"><table width="100%" border="0" cellpadding="3" cellspacing="0">
       <!--DWLayoutTable-->
-      <tr id="check_37">
-        <td valign="top"><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img width="95" height="25" src="index_clip_image001_0033.gif" /></font>
-          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="37" onClick="highlight(this,'check_37')" />
-        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-4-5<br />
+      <tbody><tr id="check_37">
+        <td valign="top"><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img width="95" height="25" src="index_clip_image001_0033.gif"></font>
+          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="37" onclick="highlight(this,'check_37')">
+        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-4-5<br>
             <u>Raider Team</u></font></p>          
           <p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Awarded annually to raider team members.        </font></p></td>
     </tr>
       
-    </table>    </td>
+    </tbody></table>    </td>
     <td valign="top"><table width="100%" border="0" cellpadding="3" cellspacing="0">
       <!--DWLayoutTable-->
-      <tr id="check_38">
-        <td valign="top"><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img width="95" height="25" src="index_clip_image001.jpg" /></font>
-          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="38" onClick="highlight(this,'check_38')" />
-        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-4-6<br />
+      <tbody><tr id="check_38">
+        <td valign="top"><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img width="95" height="25" src="index_clip_image001.jpg"></font>
+          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="38" onclick="highlight(this,'check_38')">
+        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-4-6<br>
             <u>Service Learning</u></font></p>          <p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Awarded annually to cadets who participate in service learning projects.        </font></p></td>
   </tr>
       
-    </table>    </td>
+    </tbody></table>    </td>
   </tr> <!--DWLayoutTable-->
   <tr>
     <td height="47" valign="top"><table width="100%" border="0" cellpadding="3" cellspacing="0">
       <!--DWLayoutTable-->
-      <tr id="check_39">
-        <td valign="top"><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img width="95" height="25" src="index_clip_image001_0000.jpg" /></font>
-          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="39" onClick="highlight(this,'check_39')" />
-        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-4-7<br />
+      <tbody><tr id="check_39">
+        <td valign="top"><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img width="95" height="25" src="index_clip_image001_0000.jpg"></font>
+          <input name="ribbon[]" type="checkbox" id="ribbon[]" value="39" onclick="highlight(this,'check_39')">
+        </div>          <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N-4-7<br>
             <u>Excellent Staff Performance</u></font></p>          <p align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Awarded annually to cadet staff officers for excellent performance.        </font></p></td>
     </tr>
       
-    </table>    </td>
+    </tbody></table>    </td>
     <td colspan="2" valign="top"><table width="100%" border="0" cellpadding="0" cellspacing="0">
       <!--DWLayoutTable-->
-      <tr>
+      <tbody><tr>
         <td width="223" height="22" valign="top"><!--DWLayoutEmptyCell-->&nbsp;</td>
     </tr>
       <tr>
         <td height="23" valign="top"><!--DWLayoutEmptyCell-->&nbsp;</td>
       </tr>
-    </table>    </td>
+    </tbody></table>    </td>
     <td valign="top"><table width="100%" border="0" cellpadding="0" cellspacing="0">
       <!--DWLayoutTable-->
-      <tr>
+      <tbody><tr>
         <td width="177" height="22" valign="top"><!--DWLayoutEmptyCell-->&nbsp;</td>
   </tr>
       <tr>
         <td height="23" valign="top"><!--DWLayoutEmptyCell-->&nbsp;</td>
       </tr>
-    </table>    </td>
+    </tbody></table>    </td>
   </tr> <!--DWLayoutTable-->
   <tr>
     <td height="113" valign="top"><table width="100%" border="0" cellpadding="0" cellspacing="0">
       <!--DWLayoutTable-->
-      <tr>
+      <tbody><tr>
         <td width="206" height="22" valign="top"><!--DWLayoutEmptyCell-->&nbsp;</td>
     </tr>
-    </table>    </td>
+    </tbody></table>    </td>
     <td colspan="2" valign="top"><table width="100%" border="0" cellpadding="0" cellspacing="0">
       <!--DWLayoutTable-->
-      <tr>
+      <tbody><tr>
         <td width="111" valign="top"><div align="center">
-          <input type="submit" name="Submit" value="Submit" />
+          <input type="submit" name="Submit" value="Submit">
         </div></td>
         <td width="112" valign="top"><div align="center">
-          <input type="reset" name="Submit2" value="Reset" />
+          <input type="reset" name="Submit2" value="Reset">
         </div></td>
       </tr>
       
-    </table>    </td>
+    </tbody></table>    </td>
     <td valign="top"><table width="100%" border="0" cellpadding="0" cellspacing="0">
       <!--DWLayoutTable-->
-      <tr>
+      <tbody><tr>
         <td width="177" height="22" valign="top"><!--DWLayoutEmptyCell-->&nbsp;</td>
   </tr>
-    </table>    </td>
+    </tbody></table>    </td>
   </tr>
-</table>
+</tbody></table>
 </form>
-</body>
-</html>
 
 
+
+
+</body></html>
